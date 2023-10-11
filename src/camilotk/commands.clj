@@ -24,11 +24,12 @@
     (println)))
 
 (defn change-dir [& args]
-  (let [location (second (first args))
+  (let [separator java.io.File/separator
+        location (second (first args))
         current-path      @root
-        new-path (if (clojure.string/ends-with? current-path "/")
+        new-path (if (clojure.string/ends-with? current-path separator)
                    (str current-path location)
-                   (str current-path "/" location))]
+                   (str current-path separator location))]
     (if (= location "..")
       (change-root! (.getParent (io/file current-path)))
       (if (.exists (io/file new-path))
